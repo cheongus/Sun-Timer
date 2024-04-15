@@ -1,38 +1,45 @@
-// Replace these with your actual latitude and longitude
-//const lat = '22.3193';
-//const lng = '114.1694';
-
 document.getElementById('city').addEventListener('change', function() {
-    const [lat, lng, tzid] = this.value.split(',');
+    updateTimes();
+});
+
+document.getElementById('timeType').addEventListener('change', function() {
+    updateBackground();
+    updateTimes();
+});
+
+function updateBackground() {
+    const timeType = document.getElementById('timeType').value;
+    const widgetContainer = document.querySelector('.widget-container');
+    widgetContainer.className = 'widget-container ' + (timeType === 'sunrise' ? 'sunrise-selected' : 'sunset-selected');
+}
+
+function updateTimes() {
+    const [lat, lng, tzid] = document.getElementById('city').value.split(',');
   
     fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0&tzid=${tzid}`)
       .then(response => response.json())
       .then(data => {
+        const timeType = document.getElementById('timeType').value;
         const options = { timeZone: tzid, hour: '2-digit', minute: '2-digit', second: '2-digit' };
   
         const currentTime = new Date();
-        const sunriseTime = new Date(data.results.sunrise);
-        const sunsetTime = new Date(data.results.sunset);
+        const eventTime = new Date(timeType === 'sunrise' ? data.results.sunrise : data.results.sunset);
   
-        const untilSunrise = new Date(sunriseTime - currentTime);
-        const untilSunset = new Date(sunsetTime - currentTime);
+        const untilEvent = new Date(eventTime - currentTime);
   
-        document.getElementById('current').textContent = `Current time: ${currentTime.toLocaleTimeString('en-US', options)}`;
-        document.getElementById('sunrise').textContent = `Sunrise: ${sunriseTime.toLocaleTimeString('en-US', options)}`;
-        document.getElementById('sunset').textContent = `Sunset: ${sunsetTime.toLocaleTimeString('en-US', options)}`;
-        document.getElementById('untilSunrise').textContent = `Time until sunrise: ${untilSunrise.getUTCHours()} hours ${untilSunrise.getUTCMinutes()} minutes`;
-        document.getElementById('untilSunset').textContent = `Time until sunset: ${untilSunset.getUTCHours()} hours ${untilSunset.getUTCMinutes()} minutes`;
+        document.querySelector('.current-time').textContent = `Current time: ${currentTime.toLocaleTimeString('en-US', options)}`;
+        document.querySelector('.event-time').textContent = `${timeType.charAt(0).toUpperCase() + timeType.slice(1)}: ${eventTime.toLocaleTimeString('en-US', options)}`;
+        document.querySelector('.time-until').textContent = `${untilEvent.getUTCHours()} hours ${untilEvent.getUTCMinutes()} minutes`;
       })
       .catch(error => console.error('Error:', error));
-  });
-  
-  // Trigger the change event to fetch the times for the initial city
-  document.getElementById('city').dispatchEvent(new Event('change'));
-  
-  // Update the current time every second
-  setInterval(() => {
-    document.getElementById('city').dispatchEvent(new Event('change'));
-  }, 1000);
+}
 
+updateBackground(); // Initial background setup
 
+// Trigger the change event to fetch the times for the initial city
+document.getElementById('city').dispatchEvent(new Event('change'));
 
+// Update the current time every second
+setInterval(() => {
+    updateTimes();
+}, 1000);

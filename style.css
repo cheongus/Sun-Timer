@@ -1,38 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
+
 body {
-    font-family: 'Arial', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    font-family: 'IBM Plex Mono', monospace; /* Changed to IBM Plex Mono */
+    font-weight: 500; /* Medium weight */
+    background-color: #f4f4f4;
 }
 
-select#city {
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
+.widget-container {
+    background-color: #add8e6; /* Default light blue background */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 600px;
+    position: relative; /* Needed for absolute positioning of dropdowns */
+}
+
+.header {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% - 40px); /* Adjust width considering padding */
+    padding: 0 20px;
+}
+
+.dropdown {
     border: 1px solid #ccc;
-    background-color: white;
-    cursor: pointer;
-}
-
-p {
-    margin: 5px 0;
-    padding: 10px;
-    background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 5px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+}
+
+.sun-timer {
     width: 300px;
-    text-align: center;
+    height: 150px;
+    background-color: #fdd835; /* Yellow for sun */
+    border-radius: 150px 150px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px; /* Adjusted to touch the bottom */
+    margin-bottom: -20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Additional styling for specific paragraphs if needed */
-#sunrise, #sunset {
-    color: #DAA520; /* Golden color */
+.time-until-label, .time-until, .event-time, .current-time {
+    margin: 5px;
 }
 
-#current, #untilSunrise, #untilSunset {
-    color: #2E8B57; /* SeaGreen color */
+/* Dynamic background based on selection */
+.sunrise-selected {
+    background: linear-gradient(to top, #fbb034 0%, #81dae1 75%);
+}
+
+.sunset-selected {
+    background: linear-gradient(to top, #ff7e5f 0%, #141e35 75%);
+}
+
+.sun-timer::before, .sun-timer::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+.sun-timer::before {
+    border-top: 2px solid #fdd835;
+    border-bottom: 2px solid #fdd835;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.sun-timer::after {
+    border-left: 2px solid #fdd835;
+    border-right: 2px solid #fdd835;
 }

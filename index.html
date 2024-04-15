@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page Title</title>
-    <!-- Link to CSS file -->
+    <title>Sunrise/Sunset Widget</title>
     <link rel="stylesheet" href="style.css">
 </head>
-</head>
 <body>
-    <!-- Your HTML content here -->
+    <div class="widget-container">
+        <div class="header">
+            <select id="city" class="dropdown city-dropdown">
+                <option value="">Select a city</option>
+                <option value="40.7128,-74.0060,America/New_York">New York</option>
+                <option value="51.5074,-0.1278,Europe/London">London</option>
+                <option value="22.3193,114.1694,Asia/Hong_Kong">Hong Kong</option>
+            </select>
 
-    <select id="city">
-        <option value="">Select a city</option>
-        <option value="40.7128,-74.0060,America/New_York">New York</option>
-        <option value="51.5074,-0.1278,Europe/London">London</option>
-        <option value="22.3193,114.1694,Asia/Hong_Kong">Hong Kong</option>
-        <!-- Add more cities as needed -->
-      </select>
-      
-      <p id="sunrise"></p>
-      <p id="sunset"></p>
+            <select id="timeType" class="dropdown time-type-dropdown">
+                <option value="sunrise">Sunrise</option>
+                <option value="sunset">Sunset</option>
+            </select>
+        </div>
 
-      <p>other information</p>
-      <p id="current"></p>
-      <p id="untilSunrise"></p>
-      <p id="untilSunset"></p>
+        <div class="sun-timer">
+            <div class="time-until-label">Time Until<span class="time-type-text"></span>:</div>
+            <div class="time-until">XX hours XX minutes</div>
+            <div class="event-time">XX:XX:XX PM</div>
+            <div class="current-time">XX:XX:XX PM</div>
+        </div>
+    </div>
 
-    <!-- Link to JS file -->
     <script src="script.js"></script>
 </body>
 </html>
